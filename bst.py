@@ -1,4 +1,5 @@
-from typing import Optional, overload
+from typing import Optional
+from multipledispatch import dispatch
 
 
 class Node:
@@ -19,7 +20,7 @@ class Node:
         return self._value
 
     @value.setter
-    def value(self: "Node", v: "Node") -> None:
+    def value(self: "Node", v: object) -> None:
         self._value = v
 
     @value.deleter
@@ -53,20 +54,20 @@ class Node:
     @property
     def children(self) -> Optional["Node"]:
         child = []
-        if self._left == None:
+        if self._left != None:
             child.append(self._left)
-        if self._right == None:
+        if self._right != None:
             child.append(self._right)
         return child
 
     def __bool__(self) -> bool:
-        return self._value == None
+        return self._value != None
 
     def __hash__(self) -> int:
         return hash((Node.node_number, self.value, self.left, self.right))
 
     def __repr__(self) -> str:
-        return f"[value: {self._value}, left: {self._left}, right: {self._right}]"
+        return "{" + f"'value': {self._value}, 'left': {self._left}, 'right': {self._right}" + "}"
 
 
 class bst:
@@ -88,29 +89,58 @@ class bst:
 
     def insert(self: "bst", value: object, node: Node) -> None:
         if node:
-            if node.value <= value:
-                self.insert(value, node.left)
+            if node.value >= value:
+                if node.left:
+                    self.insert(value, node.left)
+                else:
+                    node.left = Node(value)
             else:
-                self.insert(value, node.right)
+                if node.right:
+                    self.insert(value, node.right)
+                else:
+                    node.right = Node(value)
         else:
-            node.value = value
+            self._root = Node(value)
 
     def traverse(self: "bst", node: Node,
-                 collection: set = set()) -> Optional[Node]:
+                 collection: set = set()) -> set[Node]:
         collection.add(node)
         for child in node.children:
             if child not in collection:
                 self.traverse(child, collection)
         return collection
 
-    @overload
-    def __add__(self: "bst", other: Node) -> None:
-        self.insert(self._root, other.value)
+    @dispatch(int)
+    def __add__(self: "bst", __o: int) -> "bst":
+        self.insert(__o, self._root)
+        return self
 
-    @overload
-    def __add__(self: "bst", other: "bst") -> None:
-        for child in other.traverse(other.root):
-            self = self + child
+    @dispatch(float)
+    def __add__(self: "bst", __o: float) -> "bst":
+        self.insert(__o, self._root)
+        return self
+
+    @dispatch(str)
+    def __add__(self: "bst", __o: str) -> "bst":
+        self.insert(__o, self._root)
+        return self
+
+    @dispatch(Node)
+    def __add__(self: "bst", __o: Node) -> "bst":
+        self.insert(__o.value, self._root)
+        return self
+
+    @dispatch(object)
+    def __add__(self: "bst", __o: "bst") -> "bst":
+        for child in __o.traverse(__o.root):
+            self += child
+        return self
 
     def __bool__(self: "bst") -> bool:
-        return self._root == None
+        return self._root != None
+
+    def __eq__(self, __o: "bst") -> bool:
+        self._root = __o.root
+
+    def __repr__(self: "bst") -> str:
+        return "{" + f"'value': {self._root.value}, 'left': {self._root.left}, 'right': {self._root.right}" + "}"
