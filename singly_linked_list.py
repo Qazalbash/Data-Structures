@@ -1,11 +1,32 @@
-from typing import Optional
-
-
 class Node:
 
     def __init__(self: "Node", value: object = None) -> None:
-        self.value = value
-        self.next = None
+        self._value = value
+        self._next: "Node" = None
+
+    @property
+    def value(self: "Node") -> object:
+        return self._value
+
+    @value.setter
+    def value(self: "Node", va: object) -> None:
+        self._value = va
+
+    @value.deleter
+    def value(self: "Node") -> None:
+        self._value = None
+
+    @property
+    def next(self: "Node") -> "Node":
+        return self._next
+
+    @next.setter
+    def next(self: "Node", ne: "Node") -> None:
+        self._next = ne
+
+    @next.deleter
+    def next(self: "Node") -> None:
+        self._next = None
 
 
 class SinglyLinkedList:

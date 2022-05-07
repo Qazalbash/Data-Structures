@@ -6,9 +6,6 @@ CAP = 7000
 
 
 class ChainedDict:
-    """Overrides and implementes the methods defined in MyDict. Uses a chained
-    hash table to implement the dictionary.
-    """
 
     def __init__(self, p: int = MODULO) -> None:
 

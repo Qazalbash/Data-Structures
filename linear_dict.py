@@ -6,9 +6,6 @@ CAP = 7000
 
 
 class LinearDict:
-    """Overrides and implementes the methods defined in MyDict. Uses a linear
-    probing hash table to implement the dictionary.
-    """
 
     _AVAIL = object()
 

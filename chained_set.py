@@ -6,9 +6,6 @@ CAP = 7000
 
 
 class ChainedSet:
-    """Overrides and implementes the methods defined in MySet. Uses a chained
-    hash set to implement the set.
-    """
 
     def __init__(self,
                  elements: Optional[object] = [],

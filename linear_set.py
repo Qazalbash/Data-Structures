@@ -6,9 +6,6 @@ CAP = 7000
 
 
 class LinearSet:
-    """Overrides and implementes the methods defined in MySet. Uses a linear
-    probing hash set to implement the set.
-    """
 
     _AVAIL = object()
 

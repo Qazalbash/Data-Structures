@@ -3,6 +3,11 @@ from multipledispatch import dispatch
 
 
 class Node:
+    """Node class for tree node
+
+    Returns:
+        None
+    """
 
     node_number: int = 0
 
@@ -10,6 +15,14 @@ class Node:
                  value: object = None,
                  left: "Node" = None,
                  right: "Node" = None) -> None:
+        """Constructor
+
+        Args:
+            self (Node): mandotry object
+            value (object, optional): value to hold. Defaults to None.
+            left (Node, optional): left child of the node. Defaults to None.
+            right (Node, optional): right child of the node. Defaults to None.
+        """
         self._value = value
         self._left = left
         self._right = right
@@ -73,6 +86,12 @@ class Node:
 class bst:
 
     def __init__(self: "bst", root: Node = None) -> None:
+        """Binary search tree class
+
+        Args:
+            self (bst): mandatory object reference
+            root (Node, optional): root node of the tree. Defaults to None.
+        """
         self._root = root
 
     @property
@@ -88,6 +107,13 @@ class bst:
         self._root = None
 
     def insert(self: "bst", value: object, node: Node) -> None:
+        """method to insert a node in bst
+
+        Args:
+            self (bst): mandatory object reference
+            value (object): value to insert
+            node (Node): node of self
+        """
         if node:
             if node.value >= value:
                 if node.left:
@@ -104,6 +130,16 @@ class bst:
 
     def traverse(self: "bst", node: Node,
                  collection: set = set()) -> set[Node]:
+        """method traverse the tree
+
+        Args:
+            self (bst): mandatory object reference
+            node (Node): node to traverse
+            collection (set, optional): set of all nodes that has been traversed. Defaults to set().
+
+        Returns:
+            set[Node]: set of all nodes in the tree
+        """
         collection.add(node)
         for child in node.children:
             if child not in collection:
