@@ -1,6 +1,3 @@
-from multipledispatch import dispatch
-
-
 class Queue:
 
     def __init__(self: "Queue", *values: object) -> None:
