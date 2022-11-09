@@ -17,6 +17,15 @@
         "string": "cpp",
         "vector": "cpp",
         "type_traits": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "compare": "cpp",
+        "optional": "cpp",
+        "random": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "cmath": "cpp",
+        "valarray": "cpp",
+        "variant": "cpp",
+        "ostream": "cpp"
     }
 }
