@@ -1,4 +1,18 @@
-#include "node.cpp"
+#include <iostream>
+
+template <typename T>
+struct Node
+{
+	Node(T V, Node<T> *L = nullptr, Node<T> *R = nullptr) : value(V), left(L), right(R) {}
+	~Node()
+	{
+		delete left;
+		delete right;
+	}
+
+	T value;
+	Node<T> *left, *right;
+};
 
 template <typename T>
 class Heap
@@ -7,56 +21,57 @@ public:
 	Heap() : root(nullptr) {}
 	~Heap() { delete root; }
 
-	void insert(const T value) { root = insert(root, value); }
-	void remove(const T value) { root = remove(root, value); }
+	void insert(const T value) { insert(root, value); }
+	void remove(const T value) { remove(root, value); }
 	Heap *merge(Heap *heap1, Heap *heap2) { return merge(heap1->root, heap2->root); }
+	void print() { print(root); }
 
 private:
 	Node<T> *root;
 
-	Node<T> *insert(Node<T> *node, const T value)
+	void insert(Node<T> *node, T value)
 	{
 		if (node == nullptr)
-			return new Node<T>(value);
-
-		if (value < node->value)
-			node->left = insert(node->left, value);
-		else if (value > node->value)
-			node->right = insert(node->right, value);
-
-		return node;
-	}
-
-	Node<T> *remove(Node<T> *node, const T value)
-	{
-		if (node == nullptr)
-			return nullptr;
-
-		if (value < node->value)
-			node->left = remove(node->left, value);
-		else if (value > node->value)
-			node->right = remove(node->right, value);
-		else
 		{
-			if (node->left == nullptr)
-			{
-				Node<T> *temp = node->right;
-				delete node;
-				return temp;
-			}
-			else if (node->right == nullptr)
-			{
-				Node<T> *temp = node->left;
-				delete node;
-				return temp;
-			}
-
-			Node<T> *temp = min(node->right);
-			node->value = temp->value;
-			node->right = remove(node->right, temp->value);
+			node = new Node<T>(value);
+			return;
 		}
 
-		return node;
+		if (value < node->value)
+		{
+			T temp = node->value;
+			node->value = value;
+			value = temp;
+		}
+
+		if (node->left == nullptr)
+			node->left = new Node<T>(value);
+		else if (node->right == nullptr)
+			node->right = new Node<T>(value);
+		else if (node->left->value < node->right->value)
+			insert(node->left, value);
+		else
+			insert(node->right, value);
+	}
+
+	void remove(Node<T> *node, const T value)
+	{
+		if (node == nullptr)
+			return;
+
+		if (node->value == value)
+		{
+			Heap *heap = merge(node->left, node->right);
+			node->value = heap->root->value;
+			node->left = heap->root->left;
+			node->right = heap->root->right;
+			delete heap;
+		}
+		else
+		{
+			remove(node->left, value);
+			remove(node->right, value);
+		}
 	}
 
 	Node<T> *merge(Node<T> *node1, Node<T> *node2)
@@ -67,8 +82,39 @@ private:
 			return node1;
 
 		if (node1->value < node2->value)
-			return merge(node1, node2);
+		{
+			node1->right = merge(node1->right, node2);
+			return node1;
+		}
 		else
-			return merge(node2, node1);
+		{
+			node2->right = merge(node1, node2->right);
+			return node2;
+		}
+	}
+
+	void print(Node<T> *node)
+	{
+		if (node != nullptr)
+		{
+			print(node->left);
+			std::cout << node->value << " ";
+			print(node->right);
+		}
 	}
 };
+
+int main()
+{
+	Heap<int> heap;
+	heap.insert(3);
+	heap.insert(2);
+	heap.insert(15);
+	heap.insert(5);
+	heap.insert(4);
+	heap.insert(45);
+
+	// heap.print();
+
+	return 0;
+}
