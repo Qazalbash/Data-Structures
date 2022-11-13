@@ -1,3 +1,7 @@
+#ifndef LINKED_LIST
+#define LINKED_LIST
+
+#include <iostream>
 #include "node.cpp"
 
 template <typename T>
@@ -11,31 +15,50 @@ public:
 
 	void remove(const T value)
 	{
-		if (head == nullptr)
-			throw "List is empty";
-
-		if (head->value == value)
+		if (head != nullptr)
 		{
 			Node<T> *temp = head;
-			head = head->next;
-			delete temp;
+			if (head->value == value)
+			{
+				head = head->next;
+				temp = nullptr;
+				delete temp;
+			}
+			else
+			{
+				while (temp->next != nullptr)
+				{
+					if (temp->next->value == value)
+					{
+						Node<T> *temp2 = temp->next;
+						temp->next = temp->next->next;
+						delete temp2;
+						break;
+					}
+					temp = temp->next;
+				}
+			}
 		}
+	}
+
+	void print()
+	{
+		if (head == nullptr)
+			std::cout << "List is empty" << std::endl;
 		else
 		{
 			Node<T> *current = head;
-
-			while (current->next != nullptr && current->next->value != value)
+			while (current != nullptr)
+			{
+				std::cout << current->value << " ";
 				current = current->next;
-
-			if (current->next == nullptr)
-				throw "Value not found";
-
-			Node<T> *temp = current->next;
-			current->next = current->next->next;
-			delete temp;
+			}
+			std::cout << std::endl;
 		}
 	}
 
 private:
 	Node<T> *head;
 };
+
+#endif // LINKED_LIST

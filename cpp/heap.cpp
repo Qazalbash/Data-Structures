@@ -1,120 +1,162 @@
+#ifndef HEAP
+#define HEAP
+
 #include <iostream>
 
-template <typename T>
-struct Node
-{
-	Node(T V, Node<T> *L = nullptr, Node<T> *R = nullptr) : value(V), left(L), right(R) {}
-	~Node()
-	{
-		delete left;
-		delete right;
-	}
-
-	T value;
-	Node<T> *left, *right;
-};
-
+/**
+ * @brief Heap - class Heap
+ *
+ * @tparam T - Type of the value to be stored in the heap
+ */
 template <typename T>
 class Heap
 {
 public:
-	Heap() : root(nullptr) {}
-	~Heap() { delete root; }
+	T value;				  // Value to be stored in the heap
+	Heap<T> *left = nullptr;  // Pointer to the left heap
+	Heap<T> *right = nullptr; // Pointer to the right heap
 
-	void insert(const T value) { insert(root, value); }
-	void remove(const T value) { remove(root, value); }
-	Heap *merge(Heap *heap1, Heap *heap2) { return merge(heap1->root, heap2->root); }
-	void print() { print(root); }
+	/**
+	 * @brief Construct a new Heap object
+	 *
+	 */
+	Heap() : value(0) {}
+
+	/**
+	 * @brief Construct a new Heap object
+	 *
+	 * @param V - Value to be stored in the heap
+	 */
+	Heap(T V) : value(V) {}
+
+	/**
+	 * @brief Construct a new Heap object
+	 *
+	 * @param V - Value to be stored in the heap
+	 * @param L - Pointer to the left heap
+	 * @param R - Pointer to the right heap
+	 */
+	Heap(T V, Heap<T> *L, Heap<T> *R) : value(V), left(L), right(R) {}
+
+	/**
+	 * @brief Destroy the Heap object
+	 *
+	 */
+	~Heap()
+	{
+		if (left != nullptr)
+			delete left;
+		if (right != nullptr)
+			delete right;
+	}
+
+	/**
+	 * @brief Print the heap
+	 *
+	 */
+	void print()
+	{
+		cutePrint("", this, false);
+	}
+
+	/**
+	 * @brief Insert a new value in the heap
+	 *
+	 * @param V - Value to be inserted
+	 */
+	void insert(T V)
+	{
+		insert(this, V);
+	}
+
+	// some bugs in merge
+	void merge(Heap<T> *H)
+	{
+		if (value < H->value)
+		{
+			Heap<T> *temp = H;
+			H = this;
+			this = temp;
+		}
+		if (left == nullptr)
+			left = H;
+		else if (right == nullptr)
+			right = H;
+		else if (left->value <= right->value)
+			left->merge(H);
+		else
+			right->merge(H);
+	}
 
 private:
-	Node<T> *root;
-
-	void insert(Node<T> *node, T value)
+	// https://stackoverflow.com/a/51730733/14699637
+	void cutePrint(const std::string &prefix, const Heap<T> *heap, bool isLeft)
 	{
-		if (node == nullptr)
+		if (heap != nullptr)
 		{
-			node = new Node<T>(value);
-			return;
-		}
+			std::cout << prefix;
 
-		if (value < node->value)
-		{
-			T temp = node->value;
-			node->value = value;
-			value = temp;
-		}
+			std::cout << (isLeft ? "├──" : "└──");
 
-		if (node->left == nullptr)
-			node->left = new Node<T>(value);
-		else if (node->right == nullptr)
-			node->right = new Node<T>(value);
-		else if (node->left->value < node->right->value)
-			insert(node->left, value);
-		else
-			insert(node->right, value);
-	}
+			// print the value of the node
+			std::cout << heap->value << std::endl;
 
-	void remove(Node<T> *node, const T value)
-	{
-		if (node == nullptr)
-			return;
-
-		if (node->value == value)
-		{
-			Heap *heap = merge(node->left, node->right);
-			node->value = heap->root->value;
-			node->left = heap->root->left;
-			node->right = heap->root->right;
-			delete heap;
-		}
-		else
-		{
-			remove(node->left, value);
-			remove(node->right, value);
+			// enter the next tree level - left and right branch
+			cutePrint(prefix + (isLeft ? "│   " : "    "), heap->left, true);
+			cutePrint(prefix + (isLeft ? "│   " : "    "), heap->right, false);
 		}
 	}
 
-	Node<T> *merge(Node<T> *node1, Node<T> *node2)
+	/**
+	 * @brief Insert a new value in the heap
+	 *
+	 * @param V - Value to be inserted
+	 */
+	void insert(Heap<T> *heap, T V)
 	{
-		if (node1 == nullptr)
-			return node2;
-		if (node2 == nullptr)
-			return node1;
-
-		if (node1->value < node2->value)
+		if (heap == nullptr)
+			heap = new Heap<T>(V);
+		else if (V < heap->value)
 		{
-			node1->right = merge(node1->right, node2);
-			return node1;
+			T temp = heap->value;
+			heap->value = V;
+			V = temp;
 		}
+
+		if (heap->left == nullptr)
+			heap->left = new Heap<T>(V);
+		else if (heap->right == nullptr)
+			heap->right = new Heap<T>(V);
 		else
 		{
-			node2->right = merge(node1, node2->right);
-			return node2;
-		}
-	}
-
-	void print(Node<T> *node)
-	{
-		if (node != nullptr)
-		{
-			print(node->left);
-			std::cout << node->value << " ";
-			print(node->right);
+			if (heap->left->value > heap->right->value)
+				insert(heap->right, V);
+			else
+				insert(heap->left, V);
 		}
 	}
 };
 
 int main()
 {
-	Heap<int> heap;
-	heap.insert(3);
-	heap.insert(2);
-	heap.insert(15);
-	heap.insert(5);
-	heap.insert(4);
-	heap.insert(45);
+	Heap<int> h1(7);
+	h1.insert(1);
+	h1.insert(2);
+	h1.insert(3);
 
-	// heap.print();
+	Heap<int> h2(8);
+	h2.insert(10);
+	h2.insert(9);
+	h2.insert(6);
+
+	h1.print();
+	h2.print();
+
+	h1.merge(&h2);
+
+	h1.print();
 
 	return 0;
 }
+
+#endif // HEAP

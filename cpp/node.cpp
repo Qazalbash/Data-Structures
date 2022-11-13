@@ -1,3 +1,6 @@
+#ifndef NODE
+#define NODE
+
 /**
  * @brief Node - class Node
  * @param value - Value to be stored in the node
@@ -28,8 +31,14 @@ public:
 	 * @brief Destroy the Node object
 	 *
 	 */
-	~Node() { delete next; }
+	~Node()
+	{
+		if (next->next != nullptr)
+			delete next;
+	}
 
 	T value;				 // Value to be stored in the node
 	Node<T> *next = nullptr; // Pointer to the next node
 };
+
+#endif // NODE

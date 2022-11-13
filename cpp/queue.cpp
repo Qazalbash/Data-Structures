@@ -1,3 +1,6 @@
+#ifndef QUEUE
+#define QUEUE
+
 #include <iostream>
 #include "node.cpp"
 
@@ -85,3 +88,5 @@ private:
 	Node<T> *front; // Pointer to the front of the queue
 	Node<T> *back;	// Pointer to the back of the queue
 };
+
+#endif // QUEUE

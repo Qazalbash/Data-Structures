@@ -1,3 +1,6 @@
+#ifndef STACK
+#define STACK
+
 #include "node.cpp"
 
 /**
@@ -71,3 +74,5 @@ public:
 private:
 	Node<T> *top; // Pointer to the top of the stack
 };
+
+#endif // STACK
