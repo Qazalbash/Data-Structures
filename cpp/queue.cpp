@@ -38,16 +38,12 @@ public:
 	 */
 	void enqueue(const T value)
 	{
+		Node<T> *newNode = new Node<T>(value);
 		if (front == nullptr)
-		{
-			front = new Node<T>(value);
-			back = front;
-		}
+			front = newNode;
 		else
-		{
-			back->next = new Node<T>(value);
-			back = back->next;
-		}
+			back->setNext(newNode);
+		back = newNode;
 	}
 
 	/**
@@ -59,14 +55,14 @@ public:
 	{
 		if (front == nullptr)
 			throw std::runtime_error("Queue is empty");
-		else
-		{
-			T value = front->value;
-			Node<T> *temp = front;
-			front = front->next;
+
+		T value = front->getValue();
+		Node<T> *temp = front;
+		front = front->getNext();
+		temp->setNext(nullptr);
+		if (front == back)
 			delete temp;
-			return value;
-		}
+		return value;
 	}
 
 	/**
@@ -75,13 +71,21 @@ public:
 	 */
 	void print()
 	{
-		Node<T> *temp = front;
-		while (temp != nullptr)
+		if (front == nullptr)
 		{
-			std::cout << temp->value << ", ";
-			temp = temp->next;
+			std::cout << "Queue is empty" << std::endl;
 		}
-		std::cout << std::endl;
+		else
+		{
+			Node<T> *temp = front;
+			while (temp != nullptr)
+			{
+				std::cout << temp->getValue() << " ";
+				temp = temp->getNext();
+			}
+			std::cout << std::endl;
+			delete temp;
+		}
 	}
 
 private:

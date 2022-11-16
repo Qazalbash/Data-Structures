@@ -1,7 +1,7 @@
 class Stack:
 
     def __init__(self: "Stack", *values: object) -> None:
-        self._stack = [val for val in values]
+        self._stack = list(values)
 
     @property
     def stack(self: "Stack") -> list:

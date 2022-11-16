@@ -1,6 +1,8 @@
 #ifndef STACK
 #define STACK
 
+#include <iostream>
+
 #include "node.cpp"
 
 /**
@@ -47,11 +49,12 @@ public:
 	T pop()
 	{
 		if (top == nullptr)
-			return T();
+			throw "Stack is empty";
 
-		T value = top->value;
+		T value = top->getValue();
 		Node<T> *temp = top;
-		top = top->next;
+		top = top->getNext();
+		temp->setNext(nullptr);
 		delete temp;
 		return value;
 	}
@@ -65,10 +68,11 @@ public:
 		Node<T> *temp = top;
 		while (temp != nullptr)
 		{
-			std::cout << temp->value << ", ";
-			temp = temp->next;
+			std::cout << temp->getValue() << ", ";
+			temp = temp->getNext();
 		}
 		std::cout << std::endl;
+		delete temp;
 	}
 
 private:
