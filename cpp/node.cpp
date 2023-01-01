@@ -1,79 +1,32 @@
-#ifndef NODE
-#define NODE
+#include "node.hpp"
 
-/**
- * @brief Node - class Node
- * @param value - Value to be stored in the node
- * @param next - Pointer to the next node
- *
- * @tparam T - Type of the value to be stored in the stack
- */
 template <typename T>
-class Node
-{
-public:
-	/**
-	 * @brief Construct a new Node object
-	 *
-	 * @param V - Value to be stored in the node
-	 */
-	Node(T V) : value(V) {}
+Node<T>::Node(const T& data) : data(data), next(nullptr) {}
 
-	/**
-	 * @brief Construct a new Node object
-	 *
-	 * @param V - Value to be stored in the node
-	 * @param N - Pointer to the next node
-	 */
-	Node(T V, Node<T> *N) : value(V), next(N) {}
+template <typename T>
+Node<T>::Node(const T& data, const Node<T>* next) : data(data), next(next) {}
 
-	/**
-	 * @brief Construct a new Node object
-	 *
-	 * @param N
-	 */
-	Node(const Node<T> &N) : value(N.value), next(N.next) {}
+// #include <cstdlib>
+// #include <iostream>
 
-	/**
-	 * @brief Destroy the Node object
-	 *
-	 */
-	~Node()
-	{
-		delete next;
-	}
+// int main() {
+//     srand(time(0));
 
-	/**
-	 * @brief Get the Value object
-	 *
-	 * @return T - Value stored in the node
-	 */
-	T getValue() const { return value; }
+//     Node<int> *node = new Node<int>(rand() % 10);
+//     Node<int> *temp = node;
+//     for (int i = 0; i < 10; i++) {
+//         node->next = new Node<int>(rand() % 10);
+//         node       = node->next;
+//     }
 
-	/**
-	 * @brief Set the Value object
-	 *
-	 * @param V - Value to be stored in the node
-	 */
-	void setValue(T V) { value = V; }
+//     while (temp != nullptr) {
+//         std::cout << temp->value << ", ";
+//         temp = temp->next;
+//     }
+//     std::cout << std::endl;
 
-	/**
-	 * @brief Get the Next object
-	 *
-	 * @return Node<T>* - Pointer to the next node
-	 */
-	Node<T> *getNext() const { return next; }
+//     delete node;
+//     delete temp;
 
-	/**
-	 * @brief Set the Next object
-	 *
-	 * @param N - Pointer to the next node
-	 */
-	void setNext(Node<T> *N) { next = N; }
-
-private:
-	T value;				 // Value to be stored in the node
-	Node<T> *next = nullptr; // Pointer to the next node
-};
-
-#endif // NODE
+//     return 0;
+// }

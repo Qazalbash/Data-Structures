@@ -1,96 +1,34 @@
-#ifndef QUEUE
-#define QUEUE
+#include "queue.hpp"
 
-#include <iostream>
-#include "node.cpp"
-
-/**
- * @brief Queue - Queue class
- * @param front - Pointer to the front of the queue
- * @param back - Pointer to the back of the queue
- *
- * @tparam T - Type of the value to be stored in the queue
- */
 template <typename T>
-class Queue
-{
-public:
-	/**
-	 * @brief Construct a new Queue object
-	 *
-	 */
-	Queue() : front(nullptr), back(nullptr) {}
+void Queue<T>::enqueue(const T value) {
+    elems.push_back(value);
+}
 
-	/**
-	 * @brief Destroy the Queue object
-	 *
-	 */
-	~Queue()
-	{
-		delete front;
-		delete back;
-	}
+template <typename T>
+T Queue<T>::dequeue() {
+    if (elems.empty()) {
+        throw std::out_of_range("Queue<>::dequeue(): empty queue");
+    }
+    T value = elems.front();
+    elems.erase(elems.begin());
+    return value;
+}
 
-	/**
-	 * @brief Enqueue - Enqueues a value to the back of the queue
-	 *
-	 * @param value - Value to be enqueued to the queue
-	 */
-	void enqueue(const T value)
-	{
-		Node<T> *newNode = new Node<T>(value);
-		if (front == nullptr)
-			front = newNode;
-		else
-			back->setNext(newNode);
-		back = newNode;
-	}
+template <typename T>
+bool Queue<T>::empty() const {
+    return elems.empty();
+}
 
-	/**
-	 * @brief Dequeue - Dequeues the front value from the queue
-	 *
-	 * @return T - Value dequeued from the queue
-	 */
-	T dequeue()
-	{
-		if (front == nullptr)
-			throw std::runtime_error("Queue is empty");
-
-		T value = front->getValue();
-		Node<T> *temp = front;
-		front = front->getNext();
-		temp->setNext(nullptr);
-		if (front == back)
-			delete temp;
-		return value;
-	}
-
-	/**
-	 * @brief Print - Prints the queue
-	 *
-	 */
-	void print()
-	{
-		if (front == nullptr)
-		{
-			std::cout << "Queue is empty" << std::endl;
-		}
-		else
-		{
-			Node<T> *temp = front;
-			while (temp != nullptr)
-			{
-				std::cout << temp->getValue() << " ";
-				temp = temp->getNext();
-			}
-			std::cout << std::endl;
-			delete temp;
-		}
-	}
-
-private:
-	Node<T> *front; // Pointer to the front of the queue
-	Node<T> *back;	// Pointer to the back of the queue
-};
-
-#endif // QUEUE
+int main() {
+    Queue<int> queue;
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
+    queue.enqueue(4);
+    queue.enqueue(5);
+    while (!queue.empty()) {
+        std::cout << queue.dequeue() << " ";
+    }
+    return 0;
+}

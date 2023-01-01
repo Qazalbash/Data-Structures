@@ -1,82 +1,59 @@
-#ifndef STACK
-#define STACK
+#include "stack.hpp"
 
+#include <cassert>
 #include <iostream>
 
-#include "node.cpp"
-
-/**
- * @brief Stack - Stack class
- * @param value - Value to be stored in the node
- * @param next - Pointer to the next node
- * @param top - Pointer to the top of the stack
- *
- * @tparam T - Type of the value to be stored in the stack
- */
 template <typename T>
-class Stack
-{
-public:
-	/**
-	 * @brief Construct a new Stack object
-	 *
-	 */
-	Stack() : top(nullptr) {}
+void Stack<T>::push(T const& elem) {
+    elems.push_back(elem);  // append copy of passed elem
+}
 
-	/**
-	 * @brief Destroy the Stack object
-	 *
-	 */
-	~Stack() { delete top; }
+template <typename T>
+void Stack<T>::pop() {
+    assert(!elems.empty());
+    elems.pop_back();  // remove last element
+}
 
-	/**
-	 * @brief Push - Pushes a value to the top of the stack
-	 *
-	 * @param value - Value to be pushed to the stack
-	 */
-	void push(const T value)
-	{
-		Node<T> *newNode = new Node<T>(value, top);
-		top = newNode;
-	}
+template <typename T>
+T Stack<T>::top() const {
+    assert(!elems.empty());
+    return elems.back();  // return copy of last element
+}
 
-	/**
-	 * @brief Pop - Pops the top value from the stack
-	 *
-	 * @return T - Value popped from the stack
+template <typename T>
+bool Stack<T>::empty() const {
+    return elems.empty();
+}
 
-	 */
-	T pop()
-	{
-		if (top == nullptr)
-			throw "Stack is empty";
+template <typename T>
+Stack<T>::Stack(Stack<T> const& other) {
+    elems = other.elems;
+}
 
-		T value = top->getValue();
-		Node<T> *temp = top;
-		top = top->getNext();
-		temp->setNext(nullptr);
-		delete temp;
-		return value;
-	}
+template <typename T>
+Stack<T>& Stack<T>::operator=(Stack<T> const& other) {
+    if (this != &other) elems = other.elems;
+    return *this;
+}
 
-	/**
-	 * @brief Print - Prints the stack
-	 *
-	 */
-	void print()
-	{
-		Node<T> *temp = top;
-		while (temp != nullptr)
-		{
-			std::cout << temp->getValue() << ", ";
-			temp = temp->getNext();
-		}
-		std::cout << std::endl;
-		delete temp;
-	}
+// #define TEST 0
 
-private:
-	Node<T> *top; // Pointer to the top of the stack
-};
+// #if TEST
 
-#endif // STACK
+// int main() {
+//     Stack<int> stack = Stack<int>();
+//     stack.push(1);
+//     stack.push(2);
+//     stack.push(3);
+
+//     std::cout << stack.top() << std::endl;
+//     stack.pop();
+//     std::cout << stack.top() << std::endl;
+//     stack.pop();
+//     std::cout << stack.top() << std::endl;
+//     stack.pop();
+
+//     return 0;
+// }
+
+// #endif

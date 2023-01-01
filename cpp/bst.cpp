@@ -1,84 +1,154 @@
-#include "node.cpp"
+#include "bst.hpp"
+
+#include <iostream>
 
 template <typename T>
-class BinarySearchTree
-{
-public:
-	BinarySearchTree() : root(nullptr) {}
-	~BinarySearchTree() { delete root; }
+Node<T>::Node(const T &value) : value(value), left(nullptr), right(nullptr) {}
 
-	void insert(T value) { root = insert(root, value); }
-	void remove(T value) { root = remove(root, value); }
-	bool contains(T value) { return contains(root, value); }
+template <typename T>
+BinarySearchTree<T>::BinarySearchTree() : root(nullptr) {}
 
-private:
-	Node<T> *root;
+template <typename T>
+BinarySearchTree<T>::~BinarySearchTree() {
+    delete root;
+}
 
-	Node<T> *insert(Node<T> *node, const T value)
-	{
-		if (node == nullptr)
-			return new Node<T>(value);
+template <typename T>
+void BinarySearchTree<T>::insert(const T &value) {
+    root = insert(root, value);
+}
 
-		if (value < node->value)
-			node->left = insert(node->left, value);
-		else if (value > node->value)
-			node->right = insert(node->right, value);
+template <typename T>
+void BinarySearchTree<T>::remove(const T &value) {
+    root = remove(root, value);
+}
 
-		return node;
-	}
+template <typename T>
+bool BinarySearchTree<T>::contains(const T &value) {
+    return contains(root, value);
+}
 
-	Node<T> *remove(Node<T> *node, const T value)
-	{
-		if (node == nullptr)
-			return nullptr;
+template <typename T>
+Node<T> *BinarySearchTree<T>::insert(Node<T> *node, const T &value) {
+    if (node == nullptr) return new Node<T>(value);
 
-		if (value < node->value)
-			node->left = remove(node->left, value);
-		else if (value > node->value)
-			node->right = remove(node->right, value);
-		else
-		{
-			if (node->left == nullptr)
-			{
-				Node<T> *temp = node->right;
-				delete node;
-				return temp;
-			}
-			else if (node->right == nullptr)
-			{
-				Node<T> *temp = node->left;
-				delete node;
-				return temp;
-			}
+    if (value < node->value)
+        node->left = insert(node->left, value);
+    else if (value > node->value)
+        node->right = insert(node->right, value);
 
-			Node<T> *temp = min(node->right);
-			node->value = temp->value;
-			node->right = remove(node->right, temp->value);
-		}
+    return node;
+}
 
-		return node;
-	}
+template <typename T>
+Node<T> *BinarySearchTree<T>::remove(Node<T> *node, const T &value) {
+    if (node == nullptr) return nullptr;
 
-	bool contains(Node<T> *node, T value)
-	{
-		if (node == nullptr)
-			return false;
+    if (value < node->value)
+        node->left = remove(node->left, value);
+    else if (value > node->value)
+        node->right = remove(node->right, value);
+    else {
+        if (node->left == nullptr) {
+            Node<T> *temp = node->right;
+            delete node;
+            return temp;
+        } else if (node->right == nullptr) {
+            Node<T> *temp = node->left;
+            delete node;
+            return temp;
+        }
 
-		if (value < node->value)
-			return contains(node->left, value);
-		else if (value > node->value)
-			return contains(node->right, value);
-		else
-			return true;
-	}
+        Node<T> *temp = min(node->right);
+        node->value   = temp->value;
+        node->right   = remove(node->right, temp->value);
+    }
 
-	Node<T> *min(Node<T> *node)
-	{
-		Node<T> *current = node;
+    return node;
+}
 
-		while (current->left != nullptr)
-			current = current->left;
+template <typename T>
+bool BinarySearchTree<T>::contains(const Node<T> *node, const T &value) {
+    while (node != nullptr) {
+        if (value < node->value)
+            node = node->left;
+        else if (value > node->value)
+            node = node->right;
+        else
+            return true;
+    }
+    return false;
+}
 
-		return current;
-	}
-};
+template <typename T>
+Node<T> *BinarySearchTree<T>::min(Node<T> *const node) {
+    Node<T> *current = node;
+
+    while (current->left != nullptr) current = current->left;
+
+    return current;
+}
+
+template <typename T>
+void BinarySearchTree<T>::inorder() {
+    inorder(root);
+}
+
+template <typename T>
+void BinarySearchTree<T>::inorder(Node<T> *node) {
+    if (node == nullptr) return;
+
+    inorder(node->left);
+    std::cout << node->value << " ";
+    inorder(node->right);
+}
+
+template <typename T>
+void BinarySearchTree<T>::preorder() {
+    preorder(root);
+}
+
+template <typename T>
+void BinarySearchTree<T>::preorder(Node<T> *node) {
+    if (node == nullptr) return;
+
+    std::cout << node->value << " ";
+    preorder(node->left);
+    preorder(node->right);
+}
+
+template <typename T>
+void BinarySearchTree<T>::postorder() {
+    postorder(root);
+}
+
+template <typename T>
+void BinarySearchTree<T>::postorder(Node<T> *node) {
+    if (node == nullptr) return;
+
+    postorder(node->left);
+    postorder(node->right);
+    std::cout << node->value << " ";
+}
+
+int main() {
+    BinarySearchTree<int> bst;
+
+    bst.insert(5);
+    bst.insert(3);
+    bst.insert(7);
+    bst.insert(1);
+    bst.insert(4);
+    bst.insert(6);
+    bst.insert(8);
+
+    bst.inorder();
+    std::cout << std::endl;
+
+    bst.preorder();
+    std::cout << std::endl;
+
+    bst.postorder();
+    std::cout << std::endl;
+    return 0;
+}

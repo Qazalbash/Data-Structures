@@ -1,207 +1,229 @@
-#ifndef LINKED_LIST
-#define LINKED_LIST
+#include "linked_list.hpp"
 
+#include <cstdlib>
 #include <iostream>
-#include "node.cpp"
 
-/**
- * @brief LinkedList - class LinkedList
- *
- * @tparam T - Type of the value to be stored in the stack
- */
 template <typename T>
-class LinkedList
-{
-public:
-	/**
-	 * @brief Construct a new Linked List object
-	 *
-	 */
-	LinkedList() : head(nullptr) {}
+Node<T>::Node(const T& data) : data(data), next(nullptr) {}
 
-	/**
-	 * @brief Construct a new Linked List object
-	 *
-	 * @param L - LinkedList to be copied
-	 */
-	LinkedList(const LinkedList<T> &L) : head(L.head) {}
+template <typename T>
+Node<T>::Node(const T& data, const Node<T>* next) : data(data), next(next) {}
 
-	/**
-	 * @brief Destroy the Linked List object
-	 *
-	 */
-	~LinkedList() { delete head; }
+template <typename T>
+LinkedList<T>::LinkedList() : head(nullptr), size(0) {}
 
-	/**
-	 * @brief Get the Head object
-	 *
-	 * @return Node<T>* - Pointer to the head of the list
-	 */
-	Node<T> *getHead() const { return head; }
+template <typename T>
+LinkedList<T>::LinkedList(const T& data) : head(new Node<T>(data)), size(1) {}
 
-	/**
-	 * @brief Set the Head object
-	 *
-	 * @param H - Pointer to the head of the list
-	 */
-	void setHead(Node<T> *H) { head = H; }
+template <typename T>
+LinkedList<T>::LinkedList(const LinkedList& other) {
+    this->head = nullptr;
+    this->size = 0;
 
-	/**
-	 * @brief Get the Tail object
-	 *
-	 * @return Node<T>* - Pointer to the tail of the list
-	 */
-	Node<T> *getTail() const
-	{
-		Node<T> *tail = head;
-		while (tail->getNext() != nullptr)
-			tail = tail->getNext();
-		return tail;
-	}
-
-	/**
-	 * @brief Get the Size object
-	 *
-	 * @return int - Size of the list
-	 */
-	unsigned int getSize() const
-	{
-		unsigned int size = 0;
-		Node<T> current = *head;
-		while (current != nullptr)
-		{
-			size++;
-			current = *(current.getNext());
-		}
-		return size;
-	}
-
-	/**
-	 * @brief Get the Value object
-	 *
-	 * @param index - Index of the value to be returned
-	 * @return T - Value stored in the node at the given index
-	 */
-	T getValue(int index) const
-	{
-		Node<T> current = *head;
-		for (int i = 0; i < index; i++)
-			current = *(current.getNext());
-		return current.getValue();
-	}
-
-	/**
-	 * @brief Set the Value object
-	 *
-	 * @param index - Index of the value to be set
-	 * @param V - Value to be stored in the node at the given index
-	 */
-	void setValue(int index, T V)
-	{
-		Node<T> current = *head;
-		for (int i = 0; i < index; i++)
-			current = *(current.getNext());
-		current.setValue(V);
-	}
-
-	/**
-	 * @brief Insert a new node at the given index
-	 *
-	 * @param index - Index at which the new node is to be inserted
-	 * @param V - Value to be stored in the new node
-	 */
-	void insert(int index, T V)
-	{
-		if (index == 0)
-			head = new Node<T>(V, head);
-		else
-		{
-			Node<T> *current = head;
-			for (int i = 0; i < index - 1; i++)
-				current = current->getNext();
-			current->setNext(new Node<T>(V, current->getNext()));
-		}
-	}
-
-	/**
-	 * @brief Insert a new node at the end of the list
-	 *
-	 * @param value
-	 */
-	void insert(const T value)
-	{
-		if (head == nullptr)
-			head = new Node<T>(value);
-		else
-		{
-			Node<T> *temp = head;
-			while (temp->getNext() != nullptr)
-				temp = temp->getNext();
-			temp->setNext(new Node<T>(value));
-		}
-	}
-
-	/**
-	 * @brief Remove the node at the given index
-	 *
-	 * @param index - Index of the node to be removed
-	 */
-	void remove(const int index)
-	{
-		Node<T> *temp = head;
-		if (index == 0)
-		{
-			head = head->getNext();
-		}
-		else
-		{
-			Node<T> *current = head;
-			for (int i = 0; i < index - 1; i++)
-				current = current->getNext();
-			temp = current->getNext();
-			current->setNext(temp->getNext());
-		}
-		temp->setNext(nullptr);
-		delete temp;
-	}
-
-	/**
-	 * @brief Print the list
-	 *
-	 */
-	void print() const
-	{
-		Node<T> *current = head;
-		while (current != nullptr)
-		{
-			std::cout << current->getValue() << " ";
-			current = current->getNext();
-		}
-		std::cout << std::endl;
-		delete current;
-	}
-
-private:
-	Node<T> *head;
-};
-
-int main()
-{
-	LinkedList<int> L1;
-	L1.insert(1);
-	L1.insert(2);
-	L1.insert(3);
-
-	LinkedList<int> L2;
-	L2.insert(13);
-	L2.insert(23);
-	L2.insert(33);
-
-	L1.print();
-	L2.print();
-	L1.print();
-
-	return 0;
+    Node<T>* current = other.head;
+    while (current != nullptr) {
+        push_back(current->data);
+        current = current->next;
+        size++;
+    }
 }
 
-#endif // LINKED_LIST
+template <typename T>
+LinkedList<T>::~LinkedList() {
+    clear();
+}
+
+template <typename T>
+LinkedList<T>& LinkedList<T>::operator=(const LinkedList& other) {
+    if (this == &other) return *this;
+
+    clear();
+
+    Node<T>* current = other.head;
+    while (current != nullptr) {
+        push_back(current->data);
+        current = current->next;
+    }
+
+    return *this;
+}
+
+template <typename T>
+bool LinkedList<T>::operator==(const LinkedList& other) const {
+    if (size != other.size) return false;
+
+    Node<T>* current1 = head;
+    Node<T>* current2 = other.head;
+    while (current1 != nullptr) {
+        if (current1->data != current2->data) return false;
+        current1 = current1->next;
+        current2 = current2->next;
+    }
+    return true;
+}
+
+template <typename T>
+bool LinkedList<T>::operator!=(const LinkedList& other) const {
+    return !(*this == other);
+}
+
+template <typename T>
+void LinkedList<T>::push_front(T data) {
+    Node<T>* newNode = new Node<T>(data);
+    newNode->next    = head;
+    head             = newNode;
+    ++size;
+}
+
+template <typename T>
+void LinkedList<T>::push_back(T data) {
+    if (head == nullptr)
+        head = new Node<T>(data);
+    else {
+        Node<T>* current = head;
+        while (current->next != nullptr) current = current->next;
+        current->next = new Node<T>(data);
+    }
+    ++size;
+}
+
+template <typename T>
+void LinkedList<T>::pop_front() {
+    if (head == nullptr) return;
+
+    Node<T>* temp = head;
+    head          = head->next;
+    delete temp;
+    --size;
+}
+
+template <typename T>
+void LinkedList<T>::pop_back() {
+    if (head == nullptr) return;
+
+    if (head->next == nullptr) {
+        delete head;
+        head = nullptr;
+    } else {
+        Node<T>* current = head;
+        while (current->next->next != nullptr) current = current->next;
+        delete current->next;
+        current->next = nullptr;
+    }
+    --size;
+}
+
+template <typename T>
+T LinkedList<T>::front() const {
+    return head->data;
+}
+
+template <typename T>
+T LinkedList<T>::back() const {
+    Node<T>* current = head;
+    while (current->next != nullptr) current = current->next;
+    return current->data;
+}
+
+template <typename T>
+T LinkedList<T>::get(int index) const {
+    if (index < 0 || index >= size) return T();
+    Node<T>* current = head;
+    for (int i = 0; i < index; ++i) current = current->next;
+    return current->data;
+}
+
+template <typename T>
+void LinkedList<T>::set(int index, T data) {
+    if (index < 0 || index >= size) return;
+    Node<T>* current = head;
+    for (int i = 0; i < index; ++i) current = current->next;
+    current->data = data;
+}
+
+template <typename T>
+void LinkedList<T>::insert(int index, T data) {
+    if (index < 0 || index > size) return;
+
+    if (index == 0)
+        push_front(data);
+    else {
+        Node<T>* current = head;
+        for (int i = 0; i < index - 1; ++i) current = current->next;
+
+        Node<T>* newNode = new Node<T>(data);
+        newNode->next    = current->next;
+        current->next    = newNode;
+        ++size;
+    }
+}
+
+template <typename T>
+void LinkedList<T>::remove(int index) {
+    if (index < 0 || index >= size) return;
+
+    if (index == 0)
+        pop_front();
+    else {
+        Node<T>* current = head;
+        for (int i = 0; i < index - 1; ++i) current = current->next;
+
+        Node<T>* temp = current->next;
+        current->next = current->next->next;
+        delete temp;
+        --size;
+    }
+}
+
+template <typename T>
+int LinkedList<T>::getSize() const {
+    return size;
+}
+
+template <typename T>
+bool LinkedList<T>::isEmpty() const {
+    return size == 0;
+}
+
+template <typename T>
+void LinkedList<T>::clear() {
+    while (head != nullptr) pop_front();
+}
+
+template <typename T>
+void LinkedList<T>::print() const {
+    Node<T>* current = head;
+    while (current != nullptr) {
+        std::cout << current->data << " ";
+        current = current->next;
+    }
+    std::cout << std::endl;
+}
+
+template <typename T>
+T LinkedList<T>::operator[](int index) const {
+    return get(index);
+}
+
+template <typename T>
+T& LinkedList<T>::operator[](int index) {
+    if (index < 0 || index >= size) return T();
+
+    Node<T>* current = head;
+    for (int i = 0; i < index; ++i) current = current->next;
+
+    return current->data;
+}
+
+int main() {
+    srand(time(0));
+    LinkedList<int> l;
+    int             i = 10;
+    while (i--) {
+        l.push_back(rand() % 19);
+    }
+
+    l.print();
+
+    return 0;
+}

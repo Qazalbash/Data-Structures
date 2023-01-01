@@ -37,7 +37,7 @@ class SkipList(object):
     def __len__(self: "SkipList") -> int:
         return self._size
 
-    def _repr_(self: "SkipList") -> str:
+    def __repr__(self: "SkipList") -> str:
         """Returns a string representation of this skiplist.
         Implement object representation that helps you debug.
         Parameters:
@@ -51,7 +51,7 @@ class SkipList(object):
             string = ""
             head = self.head
             for i in range(self.level - 1, -1, -1):
-                string = string + "Level: " + str(i)
+                string += "Level: " + str(i)
                 current_node = head.next[i]
                 while current_node:
                     string = (string + "(" + str(current_node.data[0]) + " " +
@@ -109,8 +109,7 @@ class SkipList(object):
                 current_node = current_node.next[i]
         if current_node.next[0] and current_node.next[0].data[0] == key:
             return current_node
-        else:
-            return None
+        return None
 
     def reset(self: "SkipList") -> None:
         """Empty the skiplist.
@@ -148,8 +147,7 @@ class SkipList(object):
         # print(current_node.data[0], "key = ", key)
         if current_node and current_node.data[0] == key:
             return current_node.data[1]
-        else:
-            return None
+        return None
 
     def find_range(self: "SkipList", key1: object,
                    key2: object) -> list[object]:
@@ -168,7 +166,6 @@ class SkipList(object):
             lst.append(current_node.data[1])
             return lst
         else:
-
             print("not found")
             return None
 
@@ -271,7 +268,4 @@ class SkipList(object):
         Returns:
         True if no pairs are stored in this skiplist, False otherwise.
         """
-        if self.head.next[0] == None:
-            return True
-        else:
-            return False
+        return self.head.next[0] == None
