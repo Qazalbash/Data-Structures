@@ -26,7 +26,7 @@ public:
      *
      * @param value - Value to be enqueued to the queue
      */
-    void enqueue(const T value);
+    void enqueue(const T &value);
 
     /**
      * @brief Dequeue - Dequeues the front value from the queue

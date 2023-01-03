@@ -1,6 +1,10 @@
 #ifndef LINKED_LIST
 #define LINKED_LIST
 
+// #include <cstddef> // this module can be included for size_t
+
+typedef unsigned long size_t;
+
 /**
  * @brief Node struct that contains the data and a pointer to the next node
  *
@@ -22,7 +26,7 @@ class LinkedList {
 private:
 
     Node<T>* head;
-    int      size;
+    size_t   size = 0;
 
 public:
 
@@ -83,14 +87,14 @@ public:
      *
      * @param data
      */
-    void push_front(T data);
+    void push_front(const T& data);
 
     /**
      * @brief Inserts an element at the back of the linked list
      *
      * @param data
      */
-    void push_back(T data);
+    void push_back(const T& data);
 
     /**
      * @brief Removes the element at the front of the linked list
@@ -124,7 +128,7 @@ public:
      * @param index
      * @return T
      */
-    T get(int index) const;
+    T get(const int& index) const;
 
     /**
      * @brief Sets the element at the given index
@@ -132,7 +136,7 @@ public:
      * @param index
      * @param data
      */
-    void set(int index, T data);
+    void set(const int& index, const T& data);
 
     /**
      * @brief Inserts an element at the given index
@@ -140,14 +144,14 @@ public:
      * @param index
      * @param data
      */
-    void insert(int index, T data);
+    void insert(const int& index, const T& data);
 
     /**
      * @brief Removes the element at the given index
      *
      * @param index
      */
-    void remove(int index);
+    void remove(const int& index);
 
     /**
      * @brief Get the Size object
@@ -182,7 +186,7 @@ public:
      * @param index
      * @return T
      */
-    T operator[](int index) const;
+    T operator[](const int& index) const;
 
     /**
      * @brief Returns the element at the given index
@@ -190,7 +194,7 @@ public:
      * @param index
      * @return T&
      */
-    T& operator[](int index);
+    T& operator[](const int& index);
 };
 
 #endif  // LINKED_LIST

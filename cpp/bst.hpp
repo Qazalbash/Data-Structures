@@ -4,6 +4,7 @@
 template <typename T>
 struct Node {
     T        value;
+    int      height;
     Node<T> *left, *right;
 
     Node(const T &value);
@@ -46,25 +47,25 @@ public:
      * @return true
      * @return false
      */
-    bool contains(const T &value);
+    bool contains(const T &value) const;
 
     /**
      * @brief Print the tree in order
      *
      */
-    void inorder();
+    void inorder() const;
 
     /**
      * @brief Print the tree in preorder
      *
      */
-    void preorder();
+    void preorder() const;
 
     /**
      * @brief Print the tree in postorder
      *
      */
-    void postorder();
+    void postorder() const;
 
 protected:
 
@@ -74,13 +75,13 @@ private:
 
     Node<T> *insert(Node<T> *node, const T &value);
     Node<T> *remove(Node<T> *node, const T &value);
-    bool     contains(const Node<T> *node, const T &value);
+    bool     contains(const Node<T> *node, const T &value) const;
 
-    Node<T> *min(Node<T> *const node);
+    Node<T> *min(Node<T> *const node) const;
 
-    void inorder(Node<T> *node);
-    void preorder(Node<T> *node);
-    void postorder(Node<T> *node);
+    void inorder(Node<T> *node) const;
+    void preorder(Node<T> *node) const;
+    void postorder(Node<T> *node) const;
 };
 
 #endif  // BST

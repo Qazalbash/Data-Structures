@@ -15,17 +15,17 @@ BinarySearchTree<T>::~BinarySearchTree() {
 
 template <typename T>
 void BinarySearchTree<T>::insert(const T &value) {
-    root = insert(root, value);
+    this->root = this->insert(this->root, value);
 }
 
 template <typename T>
 void BinarySearchTree<T>::remove(const T &value) {
-    root = remove(root, value);
+    this->root = this->remove(this->root, value);
 }
 
 template <typename T>
-bool BinarySearchTree<T>::contains(const T &value) {
-    return contains(root, value);
+bool BinarySearchTree<T>::contains(const T &value) const {
+    return this->contains(this->root, value);
 }
 
 template <typename T>
@@ -33,9 +33,9 @@ Node<T> *BinarySearchTree<T>::insert(Node<T> *node, const T &value) {
     if (node == nullptr) return new Node<T>(value);
 
     if (value < node->value)
-        node->left = insert(node->left, value);
+        node->left = this->insert(node->left, value);
     else if (value > node->value)
-        node->right = insert(node->right, value);
+        node->right = this->insert(node->right, value);
 
     return node;
 }
@@ -45,9 +45,9 @@ Node<T> *BinarySearchTree<T>::remove(Node<T> *node, const T &value) {
     if (node == nullptr) return nullptr;
 
     if (value < node->value)
-        node->left = remove(node->left, value);
+        node->left = this->remove(node->left, value);
     else if (value > node->value)
-        node->right = remove(node->right, value);
+        node->right = this->remove(node->right, value);
     else {
         if (node->left == nullptr) {
             Node<T> *temp = node->right;
@@ -59,16 +59,16 @@ Node<T> *BinarySearchTree<T>::remove(Node<T> *node, const T &value) {
             return temp;
         }
 
-        Node<T> *temp = min(node->right);
+        Node<T> *temp = this->min(node->right);
         node->value   = temp->value;
-        node->right   = remove(node->right, temp->value);
+        node->right   = this->remove(node->right, temp->value);
     }
 
     return node;
 }
 
 template <typename T>
-bool BinarySearchTree<T>::contains(const Node<T> *node, const T &value) {
+bool BinarySearchTree<T>::contains(const Node<T> *node, const T &value) const {
     while (node != nullptr) {
         if (value < node->value)
             node = node->left;
@@ -81,7 +81,7 @@ bool BinarySearchTree<T>::contains(const Node<T> *node, const T &value) {
 }
 
 template <typename T>
-Node<T> *BinarySearchTree<T>::min(Node<T> *const node) {
+Node<T> *BinarySearchTree<T>::min(Node<T> *const node) const {
     Node<T> *current = node;
 
     while (current->left != nullptr) current = current->left;
@@ -90,65 +90,43 @@ Node<T> *BinarySearchTree<T>::min(Node<T> *const node) {
 }
 
 template <typename T>
-void BinarySearchTree<T>::inorder() {
-    inorder(root);
+void BinarySearchTree<T>::inorder() const {
+    this->inorder(this->root);
 }
 
 template <typename T>
-void BinarySearchTree<T>::inorder(Node<T> *node) {
+void BinarySearchTree<T>::inorder(Node<T> *node) const {
     if (node == nullptr) return;
 
-    inorder(node->left);
+    this->inorder(node->left);
     std::cout << node->value << " ";
-    inorder(node->right);
+    this->inorder(node->right);
 }
 
 template <typename T>
-void BinarySearchTree<T>::preorder() {
-    preorder(root);
+void BinarySearchTree<T>::preorder() const {
+    this->preorder(this->root);
 }
 
 template <typename T>
-void BinarySearchTree<T>::preorder(Node<T> *node) {
+void BinarySearchTree<T>::preorder(Node<T> *node) const {
     if (node == nullptr) return;
 
     std::cout << node->value << " ";
-    preorder(node->left);
-    preorder(node->right);
+    this->preorder(node->left);
+    this->preorder(node->right);
 }
 
 template <typename T>
-void BinarySearchTree<T>::postorder() {
-    postorder(root);
+void BinarySearchTree<T>::postorder() const {
+    this->postorder(this->root);
 }
 
 template <typename T>
-void BinarySearchTree<T>::postorder(Node<T> *node) {
+void BinarySearchTree<T>::postorder(Node<T> *node) const {
     if (node == nullptr) return;
 
-    postorder(node->left);
-    postorder(node->right);
+    this->postorder(node->left);
+    this->postorder(node->right);
     std::cout << node->value << " ";
-}
-
-int main() {
-    BinarySearchTree<int> bst;
-
-    bst.insert(5);
-    bst.insert(3);
-    bst.insert(7);
-    bst.insert(1);
-    bst.insert(4);
-    bst.insert(6);
-    bst.insert(8);
-
-    bst.inorder();
-    std::cout << std::endl;
-
-    bst.preorder();
-    std::cout << std::endl;
-
-    bst.postorder();
-    std::cout << std::endl;
-    return 0;
 }

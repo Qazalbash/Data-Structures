@@ -3,96 +3,85 @@
 #include <iostream>
 
 template <typename T>
-int Heap<T>::size() {
-    return heap.size();
+size_t Heap<T>::size() const {
+    return this->heap.size();
 }
 
 template <typename T>
-void Heap<T>::Insert(T element) {
-    heap.push_back(element);
-    heapifyup(heap.size() - 1);
+void Heap<T>::Insert(const T& element) {
+    this->heap.push_back(element);
+    this->heapifyup(this->heap.size() - 1);
 }
 
 template <typename T>
 void Heap<T>::DeleteMin() {
-    if (heap.size() == 0)
+    if (this->heap.size() == 0)
         std::cout << "Heap is Empty" << std::endl;
     else {
-        heap[0] = heap.at(heap.size() - 1);
-        heap.pop_back();
-        heapifydown(0);
+        this->heap[0] = this->heap.at(this->heap.size() - 1);
+        this->heap.pop_back();
+        this->heapifydown(0);
         std::cout << "Element Deleted" << std::endl;
     }
 }
 
 template <typename T>
-T Heap<T>::ExtractMin() {
-    if (heap.size() == 0) return -1;
-    return heap.front();
+T Heap<T>::ExtractMin() const {
+    if (this->heap.size() == 0) return -1;
+    return this->heap.front();
 }
 
 template <typename T>
-void Heap<T>::DisplayHeap() {
-    auto pos = heap.begin();
-    while (pos != heap.end()) std::cout << *(pos++) << " ";
+void Heap<T>::DisplayHeap() const {
+    auto pos = this->heap.begin();
+    while (pos != this->heap.end()) std::cout << *(pos++) << " ";
     std::cout << std::endl;
 }
 
 template <typename T>
-int Heap<T>::left(int parent) {
-    int l = (parent << 1) + 1;
-    if (l < heap.size()) return l;
+int Heap<T>::left(int parent) const {
+    const int l = (parent << 1) + 1;
+    if (l < this->heap.size()) return l;
     return -1;
 }
 
 template <typename T>
-int Heap<T>::right(int parent) {
-    int r = (parent << 1) + 2;
-    if (r < heap.size()) return r;
+int Heap<T>::right(int parent) const {
+    const int r = (parent << 1) + 2;
+    if (r < this->heap.size()) return r;
     return -1;
 }
 
 template <typename T>
-int Heap<T>::parent(int child) {
-    int p = (child - 1) >> 1;
+int Heap<T>::parent(int child) const {
     if (child == 0) return -1;
+    const int p = (child - 1) >> 1;
     return p;
 }
 
 template <typename T>
-void Heap<T>::heapifyup(int index) {
-    int parent_index = parent(index);
-    if (index >= 0 && parent_index >= 0 && heap[parent_index] > heap[index]) {
-        int temp           = heap[index];
-        heap[index]        = heap[parent_index];
-        heap[parent_index] = temp;
-        heapifyup(parent_index);
+void Heap<T>::heapifyup(const int& index) {
+    const int parent_index = this->parent(index);
+    if (index >= 0 && parent_index >= 0 &&
+        this->heap[parent_index] > this->heap[index]) {
+        int temp                 = this->heap[index];
+        this->heap[index]        = this->heap[parent_index];
+        this->heap[parent_index] = temp;
+        this->heapifyup(parent_index);
     }
 }
 
 template <typename T>
-void Heap<T>::heapifydown(int index) {
-    int left_child = left(index), right_child = right(index);
+void Heap<T>::heapifydown(const int& index) {
+    int left_child = this->left(index), right_child = this->right(index);
     if (left_child >= 0 && right_child >= 0 &&
-        heap[left_child] > heap[right_child]) {
+        this->heap[left_child] > this->heap[right_child]) {
         left_child = right_child;
     }
     if (left_child > 0) {
-        int temp         = heap[index];
-        heap[index]      = heap[left_child];
-        heap[left_child] = temp;
-        heapifydown(left_child);
+        int temp               = this->heap[index];
+        this->heap[index]      = this->heap[left_child];
+        this->heap[left_child] = temp;
+        this->heapifydown(left_child);
     }
-}
-
-int main() {
-    Heap<int> h;
-
-    for (int i : {9, 5, 3, 5, 7, 8, 6, 2, 4}) {
-        h.Insert(i);
-    }
-
-    h.DisplayHeap();
-
-    return 0;
 }

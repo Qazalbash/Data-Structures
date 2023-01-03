@@ -3,8 +3,10 @@
 
 #include <vector>
 
+typedef unsigned long size_t;
+
 /**
- * @brief
+ * @brief Heap class
  *
  * @tparam T
  */
@@ -19,48 +21,48 @@ public:
     Heap() = default;
 
     /**
-     * @brief
+     * @brief Insert an element into the heap
      *
      * @param element
      */
-    void Insert(T element);
+    void Insert(const T& element);
 
     /**
-     * @brief
+     * @brief Delete the minimum element from the heap
      *
      */
     void DeleteMin();
 
     /**
-     * @brief
+     * @brief Extract the minimum element from the heap
      *
      * @return T
      */
-    T ExtractMin();
+    T ExtractMin() const;
 
     /**
-     * @brief
+     * @brief Display the heap
      *
      */
-    void DisplayHeap();
+    void DisplayHeap() const;
 
     /**
-     * @brief
+     * @brief Get the size of the heap
      *
      * @return int
      */
-    int size();
+    size_t size() const;
 
 private:
 
     std::vector<T> heap;
 
-    int left(int parent);
-    int right(int parent);
-    int parent(int child);
+    int left(int parent) const;
+    int right(int parent) const;
+    int parent(int child) const;
 
-    void heapifyup(int index);
-    void heapifydown(int index);
+    void heapifyup(const int& index);
+    void heapifydown(const int& index);
 };
 
 #endif  // HEAP

@@ -42,25 +42,25 @@ public:
      * @return true
      * @return false
      */
-    bool contains(const T &value);
+    bool contains(const T &value) const;
 
     /**
      * @brief Print the tree in order
      *
      */
-    void inorder();
+    void inorder() const;
 
     /**
      * @brief Print the tree in preorder
      *
      */
-    void preorder();
+    void preorder() const;
 
     /**
      * @brief Print the tree in postorder
      *
      */
-    void postorder();
+    void postorder() const;
 
 protected:
 
@@ -70,7 +70,7 @@ protected:
      * @param node
      * @return int
      */
-    int height(Node<T> *node);
+    int height(const Node<T> *node) const;
 
     /**
      * @brief Get the balance factor of a node
@@ -86,7 +86,7 @@ protected:
      * @param node
      * @return Node<T>*
      */
-    Node<T> *left_child(Node<T> *node);
+    Node<T> *left_child(Node<T> *node) const;
 
     /**
      * @brief Get the right child of a node
@@ -94,7 +94,7 @@ protected:
      * @param node
      * @return Node<T>*
      */
-    Node<T> *right_child(Node<T> *node);
+    Node<T> *right_child(Node<T> *node) const;
 
     /**
      * @brief Get the left grandchild of a node
@@ -102,7 +102,7 @@ protected:
      * @param node
      * @return Node<T>*
      */
-    Node<T> *left_grandchild(Node<T> *node);
+    Node<T> *left_grandchild(Node<T> *node) const;
 
     /**
      * @brief Get the right grandchild of a node
@@ -110,7 +110,7 @@ protected:
      * @param node
      * @return Node<T>*
      */
-    Node<T> *right_grandchild(Node<T> *node);
+    Node<T> *right_grandchild(Node<T> *node) const;
 
     /**
      * @brief Rotate a node to the left
@@ -160,7 +160,7 @@ protected:
      * @param node
      * @return Node<T>*
      */
-    Node<T> *minimum(Node<T> *node);
+    Node<T> *minimum(Node<T> *node) const;
 
     /**
      * @brief Find the maximum
@@ -168,15 +168,7 @@ protected:
      * @param node
      * @return Node<T>*
      */
-    Node<T> *maximum(Node<T> *node);
-
-    /**
-     * @brief Print the tree in a graphical format
-     *
-     * @param node
-     * @param level
-     */
-    void print(Node<T> *node, int level);
+    Node<T> *maximum(Node<T> *node) const;
 
 private:
 
