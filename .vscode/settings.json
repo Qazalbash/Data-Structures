@@ -27,6 +27,7 @@
         "valarray": "cpp",
         "variant": "cpp",
         "ostream": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "*.tpp": "cpp"
     }
 }

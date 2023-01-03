@@ -1,7 +1,3 @@
-#include "bst.hpp"
-
-#include <iostream>
-
 template <typename T>
 Node<T>::Node(const T &value) : value(value), left(nullptr), right(nullptr) {}
 
@@ -129,4 +125,27 @@ void BinarySearchTree<T>::postorder(Node<T> *node) const {
     this->postorder(node->left);
     this->postorder(node->right);
     std::cout << node->value << " ";
+}
+
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const Node<T> &node) {
+    os << node.data;
+    return os;
+}
+
+template <typename T>
+void print(const std::string &prefix, const Node<T> *node, bool is_left) {
+    if (node != nullptr) {
+        std::cout << prefix << (is_left ? "├──" : "└──") << node->value
+                  << std::endl;
+
+        print(prefix + (is_left ? "│   " : "    "), node->left, true);
+        print(prefix + (is_left ? "│   " : "    "), node->right, false);
+    }
+}
+
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const BinarySearchTree<T> &bst) {
+    print("", bst.root, false);
+    return os;
 }

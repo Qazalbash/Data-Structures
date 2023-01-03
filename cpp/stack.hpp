@@ -1,63 +1,32 @@
 #ifndef STACK
 #define STACK
 
+#include <cassert>
+#include <ostream>
 #include <vector>
 
 template <typename T>
 class Stack {
-private:
-
-    std::vector<T> elems;  // elements
-
 public:
 
-    /**
-     * @brief Push element
-     *
-     */
-    void push(T const&);
+    Stack() = default;
+    Stack(Stack<T> const&);
 
-    /**
-     * @brief Pop element
-     *
-     */
+    void push(const T&);
     void pop();
-
-    /**
-     * @brief Return top element
-     *
-     * @return T
-     */
-    T top() const;
-
-    /**
-     * @brief Check if stack is empty
-     *
-     * @return true
-     * @return false
-     */
+    T    top() const;
     bool empty() const;
 
-    /**
-     * @brief Construct a new Stack object
-     *
-     */
-    Stack() = default;
+    Stack<T>& operator=(Stack<T> const&);
 
-    /**
-     * @brief Construct a new Stack object
-     *
-     * @param other
-     */
-    Stack(Stack<T> const& other);
+    template <typename U>
+    friend std::ostream& operator<<(std::ostream&, const Stack<U>&);
 
-    /**
-     * @brief Assign operator
-     *
-     * @param other
-     * @return Stack<T>&
-     */
-    Stack<T>& operator=(Stack<T> const& other);
+private:
+
+    std::vector<T> m_stack;  // elements
 };
+
+#include "stack.tpp"
 
 #endif  // STACK

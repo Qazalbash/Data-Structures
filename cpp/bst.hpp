@@ -8,64 +8,29 @@ struct Node {
     Node<T> *left, *right;
 
     Node(const T &value);
+
+    template <typename U>
+    friend std::ostream &operator<<(std::ostream &os, const Node<U> &node);
 };
 
 template <typename T>
 class BinarySearchTree {
 public:
 
-    /**
-     * @brief Construct a new Binary Search Tree object
-     *
-     */
     BinarySearchTree();
-
-    /**
-     * @brief Destroy the Binary Search Tree object
-     *
-     */
     ~BinarySearchTree();
 
-    /**
-     * @brief Insert a new value into the tree
-     *
-     * @param value
-     */
     void insert(const T &value);
-
-    /**
-     * @brief Remove a value from the tree
-     *
-     * @param value
-     */
     void remove(const T &value);
-
-    /**
-     * @brief Check if the tree contains a value
-     *
-     * @param value
-     * @return true
-     * @return false
-     */
     bool contains(const T &value) const;
 
-    /**
-     * @brief Print the tree in order
-     *
-     */
     void inorder() const;
-
-    /**
-     * @brief Print the tree in preorder
-     *
-     */
     void preorder() const;
-
-    /**
-     * @brief Print the tree in postorder
-     *
-     */
     void postorder() const;
+
+    template <typename U>
+    friend std::ostream &operator<<(std::ostream              &os,
+                                    const BinarySearchTree<U> &bst);
 
 protected:
 
@@ -83,5 +48,7 @@ private:
     void preorder(Node<T> *node) const;
     void postorder(Node<T> *node) const;
 };
+
+#include "bst.tpp"
 
 #endif  // BST

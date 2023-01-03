@@ -1,41 +1,26 @@
-#include "heap.hpp"
-
-#include <iostream>
-
 template <typename T>
 size_t Heap<T>::size() const {
     return this->heap.size();
 }
 
 template <typename T>
-void Heap<T>::Insert(const T& element) {
+void Heap<T>::insert(const T& element) {
     this->heap.push_back(element);
     this->heapifyup(this->heap.size() - 1);
 }
 
 template <typename T>
-void Heap<T>::DeleteMin() {
-    if (this->heap.size() == 0)
-        std::cout << "Heap is Empty" << std::endl;
-    else {
-        this->heap[0] = this->heap.at(this->heap.size() - 1);
-        this->heap.pop_back();
-        this->heapifydown(0);
-        std::cout << "Element Deleted" << std::endl;
-    }
+void Heap<T>::delete_min() {
+    if (this->heap.size() == 0) return;
+    this->heap[0] = this->heap.at(this->heap.size() - 1);
+    this->heap.pop_back();
+    this->heapifydown(0);
 }
 
 template <typename T>
-T Heap<T>::ExtractMin() const {
+T Heap<T>::extract_min() const {
     if (this->heap.size() == 0) return -1;
     return this->heap.front();
-}
-
-template <typename T>
-void Heap<T>::DisplayHeap() const {
-    auto pos = this->heap.begin();
-    while (pos != this->heap.end()) std::cout << *(pos++) << " ";
-    std::cout << std::endl;
 }
 
 template <typename T>
@@ -84,4 +69,13 @@ void Heap<T>::heapifydown(const int& index) {
         this->heap[left_child] = temp;
         this->heapifydown(left_child);
     }
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const Heap<T>& heap) {
+    auto head = heap.heap.begin(), tail = heap.heap.end() - 1;
+    out << "[";
+    while (head != tail) out << *(head++) << ", ";
+    out << *head << "]";
+    return out;
 }

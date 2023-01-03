@@ -1,4 +1,7 @@
 .vscode
+makefile
+test.cpp
 *.out
 *.exe
-makefile
+*.o
+*.s

@@ -1,25 +1,20 @@
 #ifndef NODE
 #define NODE
 
+#include <ostream>
+
 template <typename T>
 struct Node {
     T        data;
     Node<T>* next;
 
-    /**
-     * @brief Construct a new Node object
-     *
-     * @param data
-     */
-    Node(const T& data);
+    Node(const T&);
+    Node(const T&, Node<T>*);
 
-    /**
-     * @brief Construct a new Node object
-     *
-     * @param data
-     * @param next
-     */
-    Node(const T& data, const Node<T>* next);
+    template <typename U>
+    friend std::ostream& operator<<(std::ostream&, const Node<U>&);
 };
+
+#include "node.tpp"
 
 #endif  // NODE
