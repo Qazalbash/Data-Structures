@@ -2,26 +2,26 @@ template <typename T>
 Node<T>::Node(const T &value) : value(value), left(nullptr), right(nullptr) {}
 
 template <typename T>
-BinarySearchTree<T>::BinarySearchTree() : root(nullptr) {}
+BinarySearchTree<T>::BinarySearchTree() : m_root(nullptr) {}
 
 template <typename T>
 BinarySearchTree<T>::~BinarySearchTree() {
-    delete root;
+    delete m_root;
 }
 
 template <typename T>
 void BinarySearchTree<T>::insert(const T &value) {
-    this->root = this->insert(this->root, value);
+    this->m_root = this->insert(this->m_root, value);
 }
 
 template <typename T>
 void BinarySearchTree<T>::remove(const T &value) {
-    this->root = this->remove(this->root, value);
+    this->m_root = this->remove(this->m_root, value);
 }
 
 template <typename T>
 bool BinarySearchTree<T>::contains(const T &value) const {
-    return this->contains(this->root, value);
+    return this->contains(this->m_root, value);
 }
 
 template <typename T>
@@ -87,7 +87,7 @@ Node<T> *BinarySearchTree<T>::min(Node<T> *const node) const {
 
 template <typename T>
 void BinarySearchTree<T>::inorder() const {
-    this->inorder(this->root);
+    this->inorder(this->m_root);
 }
 
 template <typename T>
@@ -101,7 +101,7 @@ void BinarySearchTree<T>::inorder(Node<T> *node) const {
 
 template <typename T>
 void BinarySearchTree<T>::preorder() const {
-    this->preorder(this->root);
+    this->preorder(this->m_root);
 }
 
 template <typename T>
@@ -115,7 +115,7 @@ void BinarySearchTree<T>::preorder(Node<T> *node) const {
 
 template <typename T>
 void BinarySearchTree<T>::postorder() const {
-    this->postorder(this->root);
+    this->postorder(this->m_root);
 }
 
 template <typename T>
@@ -146,6 +146,6 @@ void print(const std::string &prefix, const Node<T> *node, bool is_left) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const BinarySearchTree<T> &bst) {
-    print("", bst.root, false);
+    print("", bst.m_root, false);
     return os;
 }

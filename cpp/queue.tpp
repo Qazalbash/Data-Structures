@@ -5,8 +5,8 @@ void Queue<T>::enqueue(const T &value) {
 
 template <typename T>
 T Queue<T>::dequeue() {
-    if (this->m_queue.empty())
-        throw std::out_of_range("Queue<T>::dequeue(): empty queue");
+    if (this->m_queue.is_empty())
+        throw std::out_of_range("Queue<T>::dequeue(): is_empty queue");
 
     const T value = this->m_queue.front();
     this->m_queue.erase(this->m_queue.begin());
@@ -14,8 +14,8 @@ T Queue<T>::dequeue() {
 }
 
 template <typename T>
-bool Queue<T>::empty() const {
-    return this->m_queue.empty();
+bool Queue<T>::is_empty() const {
+    return this->m_queue.is_empty();
 }
 
 template <typename T>

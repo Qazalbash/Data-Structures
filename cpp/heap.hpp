@@ -24,7 +24,7 @@ public:
 
 private:
 
-    std::vector<T> heap;
+    std::vector<T> m_heap;
 
     int left(int) const;
     int right(int) const;

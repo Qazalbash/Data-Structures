@@ -12,7 +12,7 @@ public:
 
     void enqueue(const T &);
     T    dequeue();
-    bool empty() const;
+    bool is_empty() const;
 
     template <typename U>
     friend std::ostream &operator<<(std::ostream &, const Queue<U> &);

@@ -7,13 +7,13 @@ AVLTree<T>::~AVLTree() {}
 template <typename T>
 void AVLTree<T>::insert(const T &value) {
     BinarySearchTree<T>::insert(value);
-    this->root = this->balance(this->root);
+    this->m_root = this->balance(this->m_root);
 }
 
 template <typename T>
 void AVLTree<T>::remove(const T &value) {
     BinarySearchTree<T>::remove(value);
-    this->root = this->balance(this->root);
+    this->m_root = this->balance(this->m_root);
 }
 
 template <typename T>
@@ -144,25 +144,7 @@ Node<T> *AVLTree<T>::remove(Node<T> *node, const T &value) {
 }
 
 template <typename T>
-Node<T> *AVLTree<T>::minimum(Node<T> *node) const {
-    if (node == nullptr) return node;
-
-    while (node->left != nullptr) node = node->left;
-
-    return node;
-}
-
-template <typename T>
-Node<T> *AVLTree<T>::maximum(Node<T> *node) const {
-    if (node == nullptr) return node;
-
-    while (node->right != nullptr) node = node->right;
-
-    return node;
-}
-
-template <typename T>
 std::ostream &operator<<(std::ostream &os, const AVLTree<T> &avltree) {
-    print("", avltree.root, false);
+    print("", avltree.m_root, false);
     return os;
 }

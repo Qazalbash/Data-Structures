@@ -15,20 +15,15 @@ public:
 
     ~LinkedList();
 
-    void push_front(const T&);
-    void push_back(const T&);
-    void pop_front();
-    void pop_back();
-
-    T front() const;
-    T back() const;
-
     void insert(const size_t&, const T&);
     void remove(const size_t&);
     int  size() const;
 
     bool is_empty() const;
     void clear();
+
+    void push_front(const T&);
+    void push_back(const T&);
 
     LinkedList& operator=(const LinkedList&);
     bool        operator==(const LinkedList&) const;
@@ -41,10 +36,7 @@ public:
 
 private:
 
-    T    get(const int&) const;
-    void set(const int&, const T&);
-
-    Node<T>* head;
+    Node<T>* m_head;
     size_t   m_size = 0;
 };
 
