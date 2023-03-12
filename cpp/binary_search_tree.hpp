@@ -5,52 +5,51 @@
 
 template <typename T>
 struct Node {
-public:
+    public:
 
-    T        value;
-    int      height;
-    Node<T> *left, *right;
+        T        value;
+        int      height;
+        Node<T> *left, *right;
 
-    Node(const T &);
+        Node(const T &);
 
-    template <typename U>
-    friend std::ostream &operator<<(std::ostream &, const Node<U> &);
+        template <typename U>
+        friend std::ostream &operator<<(std::ostream &, const Node<U> &);
 };
 
 template <typename T>
 class BinarySearchTree {
-public:
+    public:
 
-    BinarySearchTree();
-    ~BinarySearchTree();
+        BinarySearchTree();
+        ~BinarySearchTree();
 
-    void insert(const T &);
-    void remove(const T &);
-    bool contains(const T &) const;
+        void insert(const T &);
+        void remove(const T &);
+        bool contains(const T &) const;
 
-    void inorder() const;
-    void preorder() const;
-    void postorder() const;
+        void inorder() const;
+        void preorder() const;
+        void postorder() const;
 
-    template <typename U>
-    friend std::ostream &operator<<(std::ostream &,
-                                    const BinarySearchTree<U> &);
+        template <typename U>
+        friend std::ostream &operator<<(std::ostream &, const BinarySearchTree<U> &);
 
-protected:
+    protected:
 
-    Node<T> *m_root;
+        Node<T> *m_root;
 
-private:
+    private:
 
-    Node<T> *insert(Node<T> *, const T &);
-    Node<T> *remove(Node<T> *, const T &);
-    bool     contains(const Node<T> *, const T &) const;
+        Node<T> *insert(Node<T> *, const T &);
+        Node<T> *remove(Node<T> *, const T &);
+        bool     contains(const Node<T> *, const T &) const;
 
-    Node<T> *min(Node<T> *const) const;
+        Node<T> *min(Node<T> *const) const;
 
-    void inorder(Node<T> *) const;
-    void preorder(Node<T> *) const;
-    void postorder(Node<T> *) const;
+        void inorder(Node<T> *) const;
+        void preorder(Node<T> *) const;
+        void postorder(Node<T> *) const;
 };
 
 #include "binary_search_tree.tpp"

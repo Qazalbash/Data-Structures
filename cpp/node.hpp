@@ -5,16 +5,16 @@
 
 template <typename T>
 struct Node {
-public:
+    public:
 
-    T        data;
-    Node<T>* next;
+        T        data;
+        Node<T>* next;
 
-    Node(const T&);
-    Node(const T&, Node<T>*);
+        Node(const T&);
+        Node(const T&, Node<T>*);
 
-    template <typename U>
-    friend std::ostream& operator<<(std::ostream&, const Node<U>&);
+        template <typename U>
+        friend std::ostream& operator<<(std::ostream&, const Node<U>&);
 };
 
 #include "node.tpp"

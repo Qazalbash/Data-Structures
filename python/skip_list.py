@@ -218,8 +218,8 @@ class SkipList(object):
         # for traversing from top to bottom
         while i >= 0:
             # for traversing from left to right
-            while (current_node.next[i] != None
-                   and current_node.next[i].data[0] < data[0]):
+            while (current_node.next[i] != None and
+                   current_node.next[i].data[0] < data[0]):
                 current_node = current_node.next[i]
             # stores the current pointer before moving down
             update[i] = current_node

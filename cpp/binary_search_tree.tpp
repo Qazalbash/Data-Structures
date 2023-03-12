@@ -6,146 +6,165 @@ BinarySearchTree<T>::BinarySearchTree() : m_root(nullptr) {}
 
 template <typename T>
 BinarySearchTree<T>::~BinarySearchTree() {
-    delete m_root;
+        delete m_root;
 }
 
 template <typename T>
 void BinarySearchTree<T>::insert(const T &value) {
-    this->m_root = this->insert(this->m_root, value);
+        this->m_root = this->insert(this->m_root, value);
 }
 
 template <typename T>
 void BinarySearchTree<T>::remove(const T &value) {
-    this->m_root = this->remove(this->m_root, value);
+        this->m_root = this->remove(this->m_root, value);
 }
 
 template <typename T>
 bool BinarySearchTree<T>::contains(const T &value) const {
-    return this->contains(this->m_root, value);
+        return this->contains(this->m_root, value);
 }
 
 template <typename T>
 Node<T> *BinarySearchTree<T>::insert(Node<T> *node, const T &value) {
-    if (node == nullptr) return new Node<T>(value);
+        if (node == nullptr) return new Node<T>(value);
 
-    if (value < node->value)
-        node->left = this->insert(node->left, value);
-    else if (value > node->value)
-        node->right = this->insert(node->right, value);
+        if (value < node->value)
+                node->left = this->insert(node->left, value);
+        else if (value > node->value)
+                node->right = this->insert(node->right, value);
 
-    return node;
+        return node;
 }
 
 template <typename T>
 Node<T> *BinarySearchTree<T>::remove(Node<T> *node, const T &value) {
-    if (node == nullptr) return nullptr;
+        if (node == nullptr) return nullptr;
 
-    if (value < node->value)
-        node->left = this->remove(node->left, value);
-    else if (value > node->value)
-        node->right = this->remove(node->right, value);
-    else {
-        if (node->left == nullptr) {
-            Node<T> *temp = node->right;
-            delete node;
-            return temp;
-        } else if (node->right == nullptr) {
-            Node<T> *temp = node->left;
-            delete node;
-            return temp;
+        if (value < node->value)
+                node->left = this->remove(node->left, value);
+        else if (value > node->value)
+                node->right = this->remove(node->right, value);
+        else {
+                if (node->left == nullptr) {
+                        Node<T> *temp = node->right;
+                        delete node;
+                        return temp;
+                } else if (node->right == nullptr) {
+                        Node<T> *temp = node->left;
+                        delete node;
+                        return temp;
+                }
+
+                Node<T> *temp = this->min(node->right);
+                node->value   = temp->value;
+                node->right   = this->remove(node->right, temp->value);
         }
 
-        Node<T> *temp = this->min(node->right);
-        node->value   = temp->value;
-        node->right   = this->remove(node->right, temp->value);
-    }
-
-    return node;
+        return node;
 }
 
 template <typename T>
 bool BinarySearchTree<T>::contains(const Node<T> *node, const T &value) const {
-    while (node != nullptr) {
-        if (value < node->value)
-            node = node->left;
-        else if (value > node->value)
-            node = node->right;
-        else
-            return true;
-    }
-    return false;
+        while (node != nullptr) {
+                if (value < node->value)
+                        node = node->left;
+                else if (value > node->value)
+                        node = node->right;
+                else
+                        return true;
+        }
+        return false;
 }
 
 template <typename T>
 Node<T> *BinarySearchTree<T>::min(Node<T> *const node) const {
-    Node<T> *current = node;
+        Node<T> *current = node;
 
-    while (current->left != nullptr) current = current->left;
+        while (current->left != nullptr) current = current->left;
 
-    return current;
+        return current;
 }
 
 template <typename T>
 void BinarySearchTree<T>::inorder() const {
-    this->inorder(this->m_root);
+        this->inorder(this->m_root);
 }
 
 template <typename T>
 void BinarySearchTree<T>::inorder(Node<T> *node) const {
-    if (node == nullptr) return;
+        if (node == nullptr) return;
 
-    this->inorder(node->left);
-    std::cout << node->value << " ";
-    this->inorder(node->right);
+        this->inorder(node->left);
+        std::cout << node->value << " ";
+        this->inorder(node->right);
 }
 
 template <typename T>
 void BinarySearchTree<T>::preorder() const {
-    this->preorder(this->m_root);
+        this->preorder(this->m_root);
 }
 
 template <typename T>
 void BinarySearchTree<T>::preorder(Node<T> *node) const {
-    if (node == nullptr) return;
+        if (node == nullptr) return;
 
-    std::cout << node->value << " ";
-    this->preorder(node->left);
-    this->preorder(node->right);
+        std::cout << node->value << " ";
+        this->preorder(node->left);
+        this->preorder(node->right);
 }
 
 template <typename T>
 void BinarySearchTree<T>::postorder() const {
-    this->postorder(this->m_root);
+        this->postorder(this->m_root);
 }
 
 template <typename T>
 void BinarySearchTree<T>::postorder(Node<T> *node) const {
-    if (node == nullptr) return;
+        if (node == nullptr) return;
 
-    this->postorder(node->left);
-    this->postorder(node->right);
-    std::cout << node->value << " ";
+        this->postorder(node->left);
+        this->postorder(node->right);
+        std::cout << node->value << " ";
 }
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const Node<T> &node) {
-    os << node.data;
-    return os;
+        os << node.data;
+        return os;
 }
 
 template <typename T>
 void print(const std::string &prefix, const Node<T> *node, bool is_left) {
-    if (node != nullptr) {
-        std::cout << prefix << (is_left ? "├──" : "└──") << node->value
-                  << std::endl;
+        if (node != nullptr) {
+                std::cout << prefix << (is_left ? "├──" : "└──") << node->value << std::endl;
 
-        print(prefix + (is_left ? "│   " : "    "), node->left, true);
-        print(prefix + (is_left ? "│   " : "    "), node->right, false);
-    }
+                print(prefix + (is_left ? "│   " : "    "), node->left, true);
+                print(prefix + (is_left ? "│   " : "    "), node->right, false);
+        }
 }
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const BinarySearchTree<T> &bst) {
-    print("", bst.m_root, false);
-    return os;
+        print("", bst.m_root, false);
+        return os;
 }
+
+/*
+void prettyPrintTree(TreeNode* node, string prefix = "", bool isLeft = true) {
+    if (node == nullptr) {
+        cout << "Empty tree";
+        return;
+    }
+
+    if(node->right) {
+        prettyPrintTree(node->right, prefix + (isLeft ? "│   " : "    "), false);
+    }
+
+    cout << prefix + (isLeft ? "└── " : "┌── ") + to_string(node->val) + "\n";
+
+    if (node->left) {
+        prettyPrintTree(node->left, prefix + (isLeft ? "    " : "│   "), true);
+    }
+}
+
+*/

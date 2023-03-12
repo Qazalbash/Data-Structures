@@ -65,8 +65,8 @@ class LinearSet:
 
     def _is_available(self, hash_element: int) -> bool:
 
-        return (self._set[hash_element] == None
-                or self._set[hash_element] == LinearSet._AVAIL)
+        return (self._set[hash_element] == None or
+                self._set[hash_element] == LinearSet._AVAIL)
 
     def _find_slot(self, hash_element: int,
                    element: int) -> tuple[bool, object]:

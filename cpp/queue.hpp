@@ -6,20 +6,20 @@
 
 template <typename T>
 class Queue {
-public:
+    public:
 
-    Queue() = default;
+        Queue() = default;
 
-    void enqueue(const T &);
-    T    dequeue();
-    bool is_empty() const;
+        void enqueue(const T &);
+        T    dequeue();
+        bool is_empty() const;
 
-    template <typename U>
-    friend std::ostream &operator<<(std::ostream &, const Queue<U> &);
+        template <typename U>
+        friend std::ostream &operator<<(std::ostream &, const Queue<U> &);
 
-private:
+    private:
 
-    std::vector<T> m_queue;
+        std::vector<T> m_queue;
 };
 
 #include "queue.tpp"

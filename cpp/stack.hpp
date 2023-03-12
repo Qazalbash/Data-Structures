@@ -7,24 +7,24 @@
 
 template <typename T>
 class Stack {
-public:
+    public:
 
-    Stack() = default;
-    Stack(Stack<T> const&);
+        Stack() = default;
+        Stack(Stack<T> const&);
 
-    void push(const T&);
-    void pop();
-    T    top() const;
-    bool empty() const;
+        void push(const T&);
+        void pop();
+        T    top() const;
+        bool empty() const;
 
-    Stack<T>& operator=(Stack<T> const&);
+        Stack<T>& operator=(Stack<T> const&);
 
-    template <typename U>
-    friend std::ostream& operator<<(std::ostream&, const Stack<U>&);
+        template <typename U>
+        friend std::ostream& operator<<(std::ostream&, const Stack<U>&);
 
-private:
+    private:
 
-    std::vector<T> m_stack;  // elements
+        std::vector<T> m_stack;  // elements
 };
 
 #include "stack.tpp"

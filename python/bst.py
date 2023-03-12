@@ -128,8 +128,7 @@ class bst:
         else:
             self._root = Node(value)
 
-    def traverse(self: "bst", node: Node,
-                 collection: set = set()) -> set[Node]:
+    def traverse(self: "bst", node: Node, collection: set = set()) -> set[Node]:
         """method traverse the tree
 
         Args:

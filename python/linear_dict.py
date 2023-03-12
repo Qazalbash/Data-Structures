@@ -52,8 +52,8 @@ class LinearDict:
         return self._n
 
     def _is_available(self, hash_key: int) -> bool:
-        return (self._table[hash_key] == None
-                or self._table[hash_key] == LinearDict._AVAIL)
+        return (self._table[hash_key] == None or
+                self._table[hash_key] == LinearDict._AVAIL)
 
     def _find_slot(self, hash_key: int, key: int) -> tuple[bool, object]:
         firstAvail = None
