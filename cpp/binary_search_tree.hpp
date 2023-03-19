@@ -1,56 +1,213 @@
+/**
+ * @file binary_search_tree.hpp
+ * @author Meesum Ali Qazalbash (mesumali26.ma@gmail.com)
+ * @brief
+ * @version 0.1
+ * @date 2023-03-19
+ *
+ * @copyright Copyright (c) 2023
+ *
+ */
+
 #ifndef BST
 #define BST
 
-#include <ostream>
+#include <iostream>
 
+/**
+ * @brief Namespace for binary
+ *
+ */
+namespace binary {
+
+/**
+ * @brief Binary Node class
+ *
+ * @tparam T
+ */
 template <typename T>
 struct Node {
-    public:
+ public:
+    T value;
+    int height;
+    binary::Node<T> *left, *right;
 
-        T        value;
-        int      height;
-        Node<T> *left, *right;
+    /**
+     * @brief Construct a new Node object
+     *
+     * @param value
+     */
+    Node(const T &value);
 
-        Node(const T &);
+    /**
+     * @brief Construct a new Node object
+     *
+     * @param node
+     */
+    Node(const Node<T> &node);
 
-        template <typename U>
-        friend std::ostream &operator<<(std::ostream &, const Node<U> &);
+    /**
+     * @brief Destroy the Node object
+     *
+     */
+    ~Node();
 };
 
+/**
+ * @brief Overload the << operator for Node
+ *
+ * @tparam U
+ * @param os
+ * @param node
+ * @return std::ostream&
+ */
+template <typename U>
+std::ostream &operator<<(std::ostream &os, const Node<U> &node);
+}  // namespace binary
+
+/**
+ * @brief Namespace for graph data structures
+ *
+ */
+namespace graph {
+
+/**
+ * @brief Binary Search Tree class
+ *
+ * @tparam T
+ */
 template <typename T>
 class BinarySearchTree {
-    public:
+ public:
+    /**
+     * @brief Construct a new Binary Search Tree object
+     *
+     */
+    BinarySearchTree();
 
-        BinarySearchTree();
-        ~BinarySearchTree();
+    /**
+     * @brief Construct a new Binary Search Tree object
+     *
+     * @param bst
+     */
+    BinarySearchTree(const BinarySearchTree<T> &bst);
 
-        void insert(const T &);
-        void remove(const T &);
-        bool contains(const T &) const;
+    /**
+     * @brief Destroy the Binary Search Tree object
+     *
+     */
+    ~BinarySearchTree();
 
-        void inorder() const;
-        void preorder() const;
-        void postorder() const;
+    /**
+     * @brief Insert an element in the tree
+     *
+     * @param element
+     */
+    void insert(const T &element);
 
-        template <typename U>
-        friend std::ostream &operator<<(std::ostream &, const BinarySearchTree<U> &);
+    /**
+     * @brief Remove an element from the tree
+     *
+     * @param element
+     */
+    void remove(const T &element);
 
-    protected:
+    /**
+     * @brief Check if an element is present in the tree
+     *
+     * @param element
+     * @return bool
+     */
+    bool contains(const T &element) const;
 
-        Node<T> *m_root;
+    /**
+     * @brief Inorder traversal of the tree
+     *
+     */
+    void inorder() const;
 
-    private:
+    /**
+     * @brief Preorder traversal of the tree
+     *
+     */
+    void preorder() const;
 
-        Node<T> *insert(Node<T> *, const T &);
-        Node<T> *remove(Node<T> *, const T &);
-        bool     contains(const Node<T> *, const T &) const;
+    /**
+     * @brief Postorder traversal of the tree
+     *
+     */
+    void postorder() const;
 
-        Node<T> *min(Node<T> *const) const;
+ protected:
+    binary::Node<T> *m_root;  // root of the tree
 
-        void inorder(Node<T> *) const;
-        void preorder(Node<T> *) const;
-        void postorder(Node<T> *) const;
+ private:
+    /**
+     * @brief Insert an element in the tree
+     *
+     * @param node
+     * @param element
+     * @return binary::Node<T>*
+     */
+    binary::Node<T> *insert(binary::Node<T> *node, const T &element);
+
+    /**
+     * @brief Remove an element from the tree
+     *
+     * @param node
+     * @param element
+     * @return binary::Node<T>*
+     */
+    binary::Node<T> *remove(binary::Node<T> *node, const T &element);
+
+    /**
+     * @brief Check if an element is present in the tree
+     *
+     * @param node
+     * @param element
+     * @return bool
+     */
+    bool contains(const binary::Node<T> *node, const T &element) const;
+
+    /**
+     * @brief Get the min object
+     *
+     * @param node
+     * @return binary::Node<T>*
+     */
+    binary::Node<T> *min(binary::Node<T> *const node) const;
+
+    /**
+     * @brief Inorder traversal of the tree
+     *
+     * @param node
+     */
+    void inorder(binary::Node<T> *node) const;
+
+    /**
+     * @brief Preorder traversal of the tree
+     *
+     * @param node
+     */
+    void preorder(binary::Node<T> *node) const;
+
+    /**
+     * @brief Postorder traversal of the tree
+     *
+     * @param node
+     */
+    void postorder(binary::Node<T> *node) const;
 };
+
+/**
+ * @brief Overload the << operator for BinarySearchTree
+ *
+ * @tparam U
+ * @return std::ostream&
+ */
+template <typename U>
+std::ostream &operator<<(std::ostream &, const BinarySearchTree<U> &);
+}  // namespace graph
 
 #include "binary_search_tree.tpp"
 

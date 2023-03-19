@@ -28,26 +28,26 @@ namespace linear {
  * @tparam T
  */
 template <typename T>
-class SinglyLinkedList {
+class DoublyLinkedList {
  public:
     /**
      * @brief Construct a new Linked List object
      *
      */
-    SinglyLinkedList();
+    DoublyLinkedList();
 
     /**
      * @brief Construct a new Singly Linked List object
      *
      * @param sll
      */
-    SinglyLinkedList(const SinglyLinkedList& sll);
+    DoublyLinkedList(const DoublyLinkedList& sll);
 
     /**
      * @brief Destroy the Singly Linked List object
      *
      */
-    ~SinglyLinkedList();
+    ~DoublyLinkedList();
 
     /**
      * @brief Insert a new element at given index
@@ -89,14 +89,21 @@ class SinglyLinkedList {
      *
      * @param element
      */
-    void push(const T& element);
+    void push_front(const T& element);
+
+    /**
+     * @brief Push an element at the back of the list
+     *
+     * @param element
+     */
+    void push_back(const T& element);
 
     /**
      * @brief Overload the = operator
      *
-     * @return SinglyLinkedList&
+     * @return DoublyLinkedList&
      */
-    SinglyLinkedList& operator=(const SinglyLinkedList&);
+    DoublyLinkedList& operator=(const DoublyLinkedList&);
 
     /**
      * @brief Overload the == operators
@@ -104,7 +111,7 @@ class SinglyLinkedList {
      * @param sll
      * @return bool
      */
-    bool operator==(const SinglyLinkedList& sll) const;
+    bool operator==(const DoublyLinkedList& sll) const;
 
     /**
      * @brief Overload the != operators
@@ -112,7 +119,7 @@ class SinglyLinkedList {
      * @param sll
      * @return bool
      */
-    bool operator!=(const SinglyLinkedList& sll) const;
+    bool operator!=(const DoublyLinkedList& sll) const;
 
     /**
      * @brief Overload the [] operator
@@ -124,14 +131,15 @@ class SinglyLinkedList {
 
  private:
     linear::Node<T>* m_head;  // Head of the list
+    linear::Node<T>* m_tail;  // Tail of the list
     size_t m_size = 0UL;      // Size of the list
 };
 
 template <typename U>
-std::ostream& operator<<(std::ostream&, const SinglyLinkedList<U>&);
+std::ostream& operator<<(std::ostream&, const DoublyLinkedList<U>&);
 
 }  // namespace linear
 
-#include "linked_list.tpp"
+#include "doubly_linked_list.tpp"
 
 #endif  // LINKED_LIST
